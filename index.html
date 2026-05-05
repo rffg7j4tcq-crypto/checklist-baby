@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -14,11 +14,30 @@
 :root{--bg:#F7F0E8;--card:#fff;--text:#2c2218;--muted:#8a7e70;--accent:#D97B3B;--green:#5E9E5E;--blue:#4A8CB5;--purple:#A85BA5;--gold:#C49A2A;--check:#8CC084;--border:#ece5db;--red:#c0392b}
 *{margin:0;padding:0;box-sizing:border-box}
 body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM Sans',system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;padding-bottom:80px}
+
+/* Login screen */
+.login{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--card);border-radius:20px;padding:40px 32px;max-width:380px;width:100%;box-shadow:0 4px 30px rgba(60,40,20,0.1);text-align:center}
+.login-card h1{font-family:'Playfair Display',Georgia,serif;font-size:28px;margin:12px 0 8px}
+.login-card p{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5}
+.login-input{width:100%;padding:14px 18px;border:2px solid var(--border);border-radius:12px;font-size:16px;font-family:'DM Sans',system-ui;text-align:center;letter-spacing:2px;background:#faf7f3;color:var(--text);margin-bottom:16px}
+.login-input:focus{outline:none;border-color:var(--accent)}
+.login-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:'DM Sans',system-ui;box-shadow:0 4px 16px rgba(217,123,59,0.3)}
+.login-hint{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.5}
+
+/* Sync bar */
+.sync-bar{position:fixed;top:0;left:0;right:0;background:#fff;padding:6px 16px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);z-index:101}
+.sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.sync-dot.ok{background:var(--check)}.sync-dot.busy{background:var(--gold)}.sync-dot.err{background:var(--red)}
+.sync-code{font-weight:600;color:var(--accent);cursor:pointer}
+
+/* Tabs */
 .tabs{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--border);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
 .tab{flex:1;padding:10px 0 8px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);transition:all 0.2s;border:none;background:none;font-family:'DM Sans',system-ui}
 .tab.active{color:var(--accent)}
 .tab-icon{font-size:22px;display:block;margin-bottom:2px}
-.page{display:none;padding:24px 16px 20px}.page.active{display:block}
+
+.page{display:none;padding:46px 16px 20px}.page.active{display:block}
 .wrap{max-width:620px;margin:0 auto}
 .hdr{text-align:center;margin-bottom:24px}
 .hdr h1{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;line-height:1.15;margin:8px 0 4px;letter-spacing:-0.3px}
@@ -40,9 +59,8 @@ body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM San
 .btn-ghost{background:none;border:1px solid #d5ccc0;color:#9a8e80;padding:10px 16px;font-size:13px}
 .btn-ghost:hover{background:#f5efe6}
 .btn-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.status{font-size:11px;font-weight:600;padding:4px 12px;border-radius:99px;display:inline-block;margin-left:8px}
-.status-ok{background:#e8f5e0;color:#3a7a2a}
-.dirty-msg{font-size:12px;color:var(--accent);margin-top:10px;font-weight:600;display:none}
+
+/* Timeline */
 .tl{position:relative}.tll{position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--gold),var(--green),var(--blue),var(--purple));border-radius:99px;z-index:0}
 .ph{position:relative;padding-left:42px;margin-bottom:12px}
 .dot{position:absolute;left:8px;top:16px;width:16px;height:16px;border-radius:50%;z-index:1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700}
@@ -55,12 +73,22 @@ body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM San
 .ch-count{font-size:11px;color:#9a8e80;font-weight:500}
 .chev{color:#bab0a2;font-size:16px;transition:transform 0.25s}.chev.open{transform:rotate(180deg)}
 .items{padding:0 16px 14px;display:none}.items.open{display:block}
-.item{display:flex;align-items:flex-start;gap:11px;padding:9px 0;cursor:pointer;user-select:none}
-.item+.item{border-top:1px solid #f0ebe4}
-.cb{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid #cdc2b6;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:#fff}
+.ci-row{display:flex;align-items:flex-start;gap:8px;padding:9px 0}
+.ci-row+.ci-row{border-top:1px solid #f0ebe4}
+.cb{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid #cdc2b6;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:#fff;cursor:pointer}
 .cb.c{border-color:var(--check);background:#e6f4e0}
-.cb.c::after{content:"✓";color:#4a8a3e;font-size:13px;font-weight:700}
-.ix{font-size:13px;line-height:1.45;transition:all 0.2s}.ix.c{color:#b8ae9e;text-decoration:line-through}
+.cb.c::after{content:"\2713";color:#4a8a3e;font-size:13px;font-weight:700}
+.ci-text{flex:1;font-size:13px;line-height:1.45;cursor:pointer;padding:1px 0}
+.ci-text.c{color:#b8ae9e;text-decoration:line-through}
+.ci-edit{flex:1;font-size:13px;line-height:1.45;padding:4px 8px;border:1px solid var(--accent);border-radius:6px;font-family:'DM Sans',system-ui;background:#fff;outline:none}
+.ci-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:14px;padding:2px 4px;margin-top:1px}
+.ci-del:hover{color:var(--red)}
+.add-row{display:flex;gap:8px;margin-top:6px;padding-top:8px;border-top:1px dashed #e8e0d6}
+.add-input{flex:1;min-width:0;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',system-ui;background:#faf7f3}
+.add-input:focus{outline:none;border-color:var(--accent);background:#fff}
+.add-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:18px;cursor:pointer;font-weight:700;line-height:1}
+
+/* Budget */
 .bcat{margin-bottom:16px}
 .bcat-head{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;user-select:none;background:var(--card);border-radius:12px;box-shadow:0 1px 8px rgba(60,40,20,0.05)}
 .bcat-icon{font-size:20px}.bcat-title{font-weight:600;font-size:14px;flex:1}
@@ -72,42 +100,51 @@ body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM San
 .bi-name{flex:1;font-size:13px;font-weight:500}
 .bi-bought{width:20px;height:20px;min-width:20px;border-radius:6px;border:2px solid #cdc2b6;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;background:#fff}
 .bi-bought.c{border-color:var(--check);background:#e6f4e0}
-.bi-bought.c::after{content:"✓";color:#4a8a3e;font-size:12px;font-weight:700}
+.bi-bought.c::after{content:"\2713";color:#4a8a3e;font-size:12px;font-weight:700}
 .bi-prices{display:flex;gap:8px;align-items:center}
 .bi-field{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
 .bi-field label{font-size:11px;white-space:nowrap}
 .bi-input{width:72px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:'DM Sans',system-ui;text-align:right;background:#faf7f3;color:var(--text)}
 .bi-input:focus{outline:none;border-color:var(--accent);background:#fff}
 .bi-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:4px}.bi-del:hover{color:var(--red)}
-
-/* Link section */
 .bi-link-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.bi-link-input{flex:1;min-width:0;padding:5px 8px;border:1px solid var(–border);border-radius:6px;font-size:12px;font-family:‘DM Sans’,system-ui;background:#faf7f3;color:var(–text)}
-.bi-link-input:focus{outline:none;border-color:var(–accent);background:#fff}
-.bi-link-fetch{background:var(–blue);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:‘DM Sans’,system-ui}
-.bi-link-fetch:disabled{background:#ccc;cursor:wait}
-.bi-link-open{background:none;border:1px solid var(–border);border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;text-decoration:none;color:var(–blue);font-weight:600;white-space:nowrap}
-.bi-link-open:hover{background:#f0f7fb}
+.bi-link-input{flex:1;min-width:0;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'DM Sans',system-ui;background:#faf7f3;color:var(--text)}
+.bi-link-input:focus{outline:none;border-color:var(--accent);background:#fff}
+.bi-link-fetch{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'DM Sans',system-ui}
+.bi-link-open{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;text-decoration:none;color:var(--blue);font-weight:600;white-space:nowrap}
 .bi-product{background:#f8f5f0;border-radius:8px;padding:10px 12px;margin-top:4px}
-.bi-product-name{font-size:12px;font-weight:600;color:var(–text);margin-bottom:3px}
-.bi-product-desc{font-size:11px;color:var(–muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.bi-product-use{background:var(–accent);color:#fff;border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;margin-top:6px;font-weight:600;font-family:‘DM Sans’,system-ui}
-.bi-fetching{font-size:11px;color:var(–blue);padding:6px 0}
-
-.add-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.add-input{flex:1;min-width:100px;padding:8px 12px;border:1px solid var(–border);border-radius:8px;font-size:13px;font-family:‘DM Sans’,system-ui;background:#faf7f3}
-.add-input:focus{outline:none;border-color:var(–accent);background:#fff}
-.add-price{width:70px;padding:8px;border:1px solid var(–border);border-radius:8px;font-size:13px;font-family:‘DM Sans’,system-ui;text-align:right;background:#faf7f3}
-.add-price:focus{outline:none;border-color:var(–accent);background:#fff}
-.add-btn{background:var(–accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:18px;cursor:pointer;font-weight:700;line-height:1}
-
+.bi-product-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.bi-product-desc{font-size:11px;color:var(--muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bi-product-use{background:var(--accent);color:#fff;border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;margin-top:6px;font-weight:600;font-family:'DM Sans',system-ui}
+.bi-fetching{font-size:11px;color:var(--blue);padding:6px 0}
+.add-price{width:70px;padding:8px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',system-ui;text-align:right;background:#faf7f3}
+.add-price:focus{outline:none;border-color:var(--accent);background:#fff}
 .ft{text-align:center;font-size:12px;color:#b0a494;margin-top:18px;font-weight:500}
 @media(min-width:768px){.dash{grid-template-columns:repeat(4,1fr)}.bi-prices{gap:14px}}
 @media(max-width:380px){.dash-val{font-size:18px}.bi-prices{flex-wrap:wrap}}
 </style>
-
 </head>
 <body>
+
+<!-- LOGIN -->
+<div id="login-screen" class="login">
+<div class="login-card">
+  <div style="font-size:48px">👶🏼</div>
+  <h1>Baby Planner</h1>
+  <p>Voer jullie familiencode in om de checklist en het budget te synchroniseren op alle toestellen.</p>
+  <input class="login-input" id="code-input" placeholder="familiencode" autocapitalize="none" autocorrect="off" spellcheck="false">
+  <button class="login-btn" onclick="doLogin()">Starten</button>
+  <p class="login-hint">Kies samen een code (bv. jullie achternaam + jaar).<br>Iedereen met dezelfde code deelt dezelfde data.</p>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app-screen" style="display:none">
+
+<div class="sync-bar">
+  <div><span class="sync-dot ok" id="sync-dot"></span><span id="sync-status">Gesynchroniseerd</span></div>
+  <span class="sync-code" id="sync-code" onclick="doLogout()" title="Klik om te wisselen"></span>
+</div>
 
 <div class="tabs">
   <button class="tab active" onclick="showPage('checklist')" id="tab-checklist"><span class="tab-icon">✅</span>Checklist</button>
@@ -115,25 +152,22 @@ body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM San
 </div>
 
 <!-- CHECKLIST -->
-
 <div class="page active" id="page-checklist">
 <div class="wrap">
-  <div class="hdr"><div style="font-size:44px;line-height:1">👶🏼</div><h1>Checklist<br>Tweede Kindje</h1><p>Gesorteerd op tijdlijn met deadlines</p></div>
+  <div class="hdr"><div style="font-size:44px;line-height:1">👶🏼</div><h1>Checklist<br>Tweede Kindje</h1><p>Tik op tekst om te wijzigen — sync op alle toestellen</p></div>
   <div class="crd">
-    <div class="prog-top"><div><span class="prog-lbl" id="cl-lbl">0 van 0</span><span id="cl-st"></span></div><span class="prog-pct" id="cl-pct">0%</span></div>
+    <div class="prog-top"><div><span class="prog-lbl" id="cl-lbl">0 van 0</span></div><span class="prog-pct" id="cl-pct">0%</span></div>
     <div class="track"><div class="fill fill-a" id="cl-fill"></div></div>
-    <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" id="cl-sv" onclick="clSave()">✓ Opgeslagen</button><button class="btn btn-ghost" onclick="clReset()">Reset</button></div>
-    <p class="dirty-msg" id="cl-dirty">Je hebt onopgeslagen wijzigingen</p>
+    <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" onclick="clReset()">Reset naar standaard</button></div>
   </div>
   <div class="tl" id="tl"><div class="tll"></div></div>
 </div>
 </div>
 
 <!-- BUDGET -->
-
 <div class="page" id="page-budget">
 <div class="wrap">
-  <div class="hdr"><div style="font-size:44px;line-height:1">💰</div><h1>Budget<br>Babyplanner</h1><p>Houd je uitgaven bij — prijzen voor België</p></div>
+  <div class="hdr"><div style="font-size:44px;line-height:1">💰</div><h1>Budget<br>Babyplanner</h1><p>Prijzen voor België — sync op alle toestellen</p></div>
   <div class="dash" id="bu-dash"></div>
   <div class="crd" style="margin-bottom:20px">
     <div class="prog-top"><span class="prog-lbl">Gekocht</span><span class="prog-pct" id="bu-pct" style="color:var(--green)">0%</span></div>
@@ -142,15 +176,122 @@ body{min-height:100vh;min-height:100dvh;background:var(--bg);font-family:'DM San
       <span style="font-size:12px;color:var(--muted)">Besteed: <strong id="bu-spent">€0</strong></span>
       <span style="font-size:12px;color:var(--muted)">Budget: <strong id="bu-budget">€0</strong></span>
     </div>
-    <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" id="bu-sv" onclick="buSave()">✓ Opgeslagen</button><button class="btn btn-ghost" onclick="buReset()">Reset</button></div>
-    <p class="dirty-msg" id="bu-dirty">Je hebt onopgeslagen wijzigingen</p>
+    <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" onclick="buReset()">Reset naar standaard</button></div>
   </div>
   <div id="bu-cats"></div>
 </div>
 </div>
 
+</div><!-- /app-screen -->
+
 <script>
-// ===== TABS =====
+var FB_URL="https://baby-planner-56213-default-rtdb.europe-west1.firebasedatabase.app";
+var familyCode="";
+var syncTimer=null;
+var saveTimeout=null;
+var isSaving=false;
+
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+
+// ========== AUTH ==========
+function doLogin(){
+  var code=document.getElementById("code-input").value.trim().toLowerCase().replace(/[^a-z0-9]/g,"");
+  if(!code||code.length<3){alert("Kies een code van minstens 3 tekens (alleen letters en cijfers).");return}
+  familyCode=code;
+  localStorage.setItem("bp-code",code);
+  startApp();
+}
+function doLogout(){
+  if(!confirm("Wil je van familiencode wisselen?"))return;
+  localStorage.removeItem("bp-code");
+  familyCode="";
+  document.getElementById("app-screen").style.display="none";
+  document.getElementById("login-screen").style.display="flex";
+  if(syncTimer)clearInterval(syncTimer);
+}
+function checkLogin(){
+  var code=localStorage.getItem("bp-code");
+  if(code){familyCode=code;startApp()}
+}
+
+// ========== SYNC ==========
+function syncStatus(state,msg){
+  var dot=document.getElementById("sync-dot");
+  var txt=document.getElementById("sync-status");
+  if(!dot)return;
+  dot.className="sync-dot "+state;
+  txt.textContent=msg||"";
+}
+
+function cloudSave(){
+  if(isSaving)return;
+  if(saveTimeout)clearTimeout(saveTimeout);
+  saveTimeout=setTimeout(function(){doCloudSave()},800);
+}
+
+function doCloudSave(){
+  isSaving=true;
+  syncStatus("busy","Opslaan...");
+  var data=JSON.stringify({checklist:clD,budget:buD});
+  fetch(FB_URL+"/families/"+familyCode+".json",{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:data
+  }).then(function(r){
+    if(!r.ok)throw new Error(r.status);
+    syncStatus("ok","Opgeslagen om "+timeNow());
+    isSaving=false;
+  }).catch(function(e){
+    syncStatus("err","Sync mislukt");
+    isSaving=false;
+  });
+}
+
+function cloudLoad(cb){
+  syncStatus("busy","Laden...");
+  fetch(FB_URL+"/families/"+familyCode+".json")
+  .then(function(r){return r.json()})
+  .then(function(data){
+    if(data&&data.checklist){clD=data.checklist}
+    if(data&&data.budget){
+      buD=data.budget;
+      buD.forEach(function(c){c.items.forEach(function(it){if(!it.url)it.url="";if(!it.pName)it.pName="";if(!it.pDesc)it.pDesc=""})});
+    }
+    syncStatus("ok","Gesynchroniseerd om "+timeNow());
+    if(cb)cb();
+  }).catch(function(e){
+    syncStatus("err","Kon niet laden");
+    if(cb)cb();
+  });
+}
+
+function cloudRefresh(){
+  if(isSaving)return;
+  fetch(FB_URL+"/families/"+familyCode+".json")
+  .then(function(r){return r.json()})
+  .then(function(data){
+    if(data&&data.checklist){clD=data.checklist;clUI()}
+    if(data&&data.budget){
+      buD=data.budget;
+      buD.forEach(function(c){c.items.forEach(function(it){if(!it.url)it.url="";if(!it.pName)it.pName="";if(!it.pDesc)it.pDesc=""})});
+      buUI();
+    }
+    syncStatus("ok","Gesynchroniseerd om "+timeNow());
+  }).catch(function(){});
+}
+
+function timeNow(){var d=new Date();return d.getHours()+":"+String(d.getMinutes()).padStart(2,"0")}
+
+function startApp(){
+  document.getElementById("login-screen").style.display="none";
+  document.getElementById("app-screen").style.display="block";
+  document.getElementById("sync-code").textContent=familyCode;
+  clLoadDefaults();buLoadDefaults();
+  cloudLoad(function(){clUI();buUI()});
+  syncTimer=setInterval(cloudRefresh,15000);
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)cloudRefresh()});
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
@@ -158,217 +299,134 @@ function showPage(id){
   document.getElementById('tab-'+id).classList.add('active');
 }
 
-// ===== CHECKLIST =====
-var CL=[
-  {t:"Eerste Trimester",i:"🌱",d:"Vóór week 13",c:"#D97B3B",x:["Zwangerschap melden bij verloskundige/gynaecoloog","Zorgverzekering controleren (dekking bevalling, kraamzorg)","NIPT of combinatietest overwegen en inplannen","Budget opstellen voor extra kosten tweede kind","Kinderopvang aanmelden voor tweede kind (wachtlijsten!)","Eerste kind voorbereiden op komst broertje/zusje","Boekjes over grote broer/zus worden lezen"]},
-  {t:"Tweede Trimester",i:"🌿",d:"Vóór week 27",c:"#C49A2A",x:["Kraamzorg aanvragen (liefst vóór week 16!)","20-weken echo inplannen","Zwangerschap melden bij werkgever","Zwangerschapsverlof aanvragen","Partner: geboorteverlof regelen","Keuze ziekenhuis of thuisbevalling bespreken","Kinderopvangtoeslag berekenen en voorbereiden","Testament/voogdijregeling bijwerken","Spaarpotje/rekening openen voor tweede kind","Inventarisatie: wat kan hergebruikt worden?","Geboortekaartjes ontwerpen/bestellen"]},
-  {t:"Derde Trimester",i:"🪺",d:"Vóór week 34",c:"#5E9E5E",x:["Geboorteplan opstellen","Overdracht werkzaamheden voorbereiden","Ouderschapsverlof aanvragen","Bevallingsverlof controleren via werkgever","Aanvullende verzekering baby controleren","Babykamer/slaaphoek inrichten","Wieg of co-sleeper klaarzetten","Autostoeltje groep 0+ controleren","Kinderwagen/buggy checken of aanschaffen","Groot bed voor eerste kind regelen","Oppas/logeerplan eerste kind regelen","Kinderopvang regelen tijdens bevalling"]},
-  {t:"Bijna Zover!",i:"🎒",d:"Vóór week 37",c:"#4A8CB5",x:["Kraampakket bestellen","Ziekenhuistas inpakken","Babykleding sorteren op maat","Luiers, doekjes, verzorgingsproducten inslaan","Borstvoeding/flesvoeding benodigdheden","Aankleedkussen en badspullen checken","Route naar ziekenhuis doorspreken","Noodplan: wie past op eerste kind?","Bellijst/appgroep aanmaken","Beschuit met muisjes inkopen","Traktatie regelen voor kraamvisite","Cadeautje van de baby voor grote broer/zus"]},
-  {t:"Na de Geboorte",i:"✨",d:"Eerste weken",c:"#A85BA5",x:["Geboorteaangifte bij gemeente (binnen 3 werkdagen!)","Baby inschrijven bij zorgverzekeraar (binnen 4 maanden)","Baby aanmelden bij huisarts","Consultatiebureau: eerste afspraak inplannen","BSN-nummer ontvangen en bewaren","Geboortekaartjes versturen","Kinderbijslag controleren"]}
+// ========== CHECKLIST ==========
+var CL_DEF=[
+  {t:"Eerste Trimester",i:"\u{1F331}",d:"Voor week 13",c:"#D97B3B",x:[
+    {text:"Zwangerschap melden bij verloskundige/gynaecoloog",done:false},{text:"Zorgverzekering controleren (dekking bevalling, kraamzorg)",done:false},{text:"NIPT of combinatietest overwegen en inplannen",done:false},{text:"Budget opstellen voor extra kosten tweede kind",done:false},{text:"Kinderopvang aanmelden voor tweede kind (wachtlijsten!)",done:false},{text:"Eerste kind voorbereiden op komst broertje/zusje",done:false},{text:"Boekjes over grote broer/zus worden lezen",done:false}]},
+  {t:"Tweede Trimester",i:"\u{1F33F}",d:"Voor week 27",c:"#C49A2A",x:[
+    {text:"Kraamzorg aanvragen (liefst voor week 16!)",done:false},{text:"20-weken echo inplannen",done:false},{text:"Zwangerschap melden bij werkgever",done:false},{text:"Zwangerschapsverlof aanvragen",done:false},{text:"Partner: geboorteverlof regelen",done:false},{text:"Keuze ziekenhuis of thuisbevalling bespreken",done:false},{text:"Kinderopvangtoeslag berekenen en voorbereiden",done:false},{text:"Testament/voogdijregeling bijwerken",done:false},{text:"Spaarpotje/rekening openen voor tweede kind",done:false},{text:"Inventarisatie: wat kan hergebruikt worden?",done:false},{text:"Geboortekaartjes ontwerpen/bestellen",done:false}]},
+  {t:"Derde Trimester",i:"\u{1FAB9}",d:"Voor week 34",c:"#5E9E5E",x:[
+    {text:"Geboorteplan opstellen",done:false},{text:"Overdracht werkzaamheden voorbereiden",done:false},{text:"Ouderschapsverlof aanvragen",done:false},{text:"Bevallingsverlof controleren via werkgever",done:false},{text:"Aanvullende verzekering baby controleren",done:false},{text:"Babykamer/slaaphoek inrichten",done:false},{text:"Wieg of co-sleeper klaarzetten",done:false},{text:"Autostoeltje groep 0+ controleren",done:false},{text:"Kinderwagen/buggy checken of aanschaffen",done:false},{text:"Groot bed voor eerste kind regelen",done:false},{text:"Oppas/logeerplan eerste kind regelen",done:false},{text:"Kinderopvang regelen tijdens bevalling",done:false}]},
+  {t:"Bijna Zover!",i:"\u{1F392}",d:"Voor week 37",c:"#4A8CB5",x:[
+    {text:"Kraampakket bestellen",done:false},{text:"Ziekenhuistas inpakken",done:false},{text:"Babykleding sorteren op maat",done:false},{text:"Luiers, doekjes, verzorgingsproducten inslaan",done:false},{text:"Borstvoeding/flesvoeding benodigdheden",done:false},{text:"Aankleedkussen en badspullen checken",done:false},{text:"Route naar ziekenhuis doorspreken",done:false},{text:"Noodplan: wie past op eerste kind?",done:false},{text:"Bellijst/appgroep aanmaken",done:false},{text:"Beschuit met muisjes inkopen",done:false},{text:"Traktatie regelen voor kraamvisite",done:false},{text:"Cadeautje van de baby voor grote broer/zus",done:false}]},
+  {t:"Na de Geboorte",i:"\u2728",d:"Eerste weken",c:"#A85BA5",x:[
+    {text:"Geboorteaangifte bij gemeente (binnen 3 werkdagen!)",done:false},{text:"Baby inschrijven bij zorgverzekeraar (binnen 4 maanden)",done:false},{text:"Baby aanmelden bij huisarts",done:false},{text:"Consultatiebureau: eerste afspraak inplannen",done:false},{text:"BSN-nummer ontvangen en bewaren",done:false},{text:"Geboortekaartjes versturen",done:false},{text:"Kinderbijslag controleren",done:false}]}
 ];
-var clK="b2c",clCk={},clOpen=null,clDr=false;
-CL.forEach(function(p,a){p.x.forEach(function(_,b){clCk[a+"x"+b]=false})});
-try{var s=localStorage.getItem(clK);if(s)s.split(",").forEach(function(k){if(k in clCk)clCk[k]=true})}catch(e){}
-function clSave(){try{var v=[];for(var k in clCk)if(clCk[k])v.push(k);localStorage.setItem(clK,v.join(","));clDr=false;clUI()}catch(e){}}
-function clReset(){if(!confirm("Alle vinkjes resetten?"))return;for(var k in clCk)clCk[k]=false;clDr=false;try{localStorage.removeItem(clK)}catch(e){}clUI()}
-function clTi(a,b){clCk[a+"x"+b]=!clCk[a+"x"+b];clDr=true;clUI()}
-function clTc(a){clOpen=clOpen===a?null:a;clUI()}
+
+var clD=[],clOpen=null,clEditing=null;
+function clLoadDefaults(){clD=JSON.parse(JSON.stringify(CL_DEF))}
+function clReset(){if(!confirm("Checklist resetten naar standaard?"))return;clLoadDefaults();clEditing=null;clUI();cloudSave()}
+function clToggle(pi,ii){clD[pi].x[ii].done=!clD[pi].x[ii].done;clUI();cloudSave()}
+function clCat(pi){clOpen=clOpen===pi?null:pi;clEditing=null;clUI()}
+function clDel(pi,ii){clD[pi].x.splice(ii,1);clEditing=null;clUI();cloudSave()}
+function clEdit(pi,ii){clEditing=pi+"_"+ii;clUI();var el=document.getElementById("cl-ed-"+pi+"-"+ii);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}}
+function clEditDone(pi,ii){var el=document.getElementById("cl-ed-"+pi+"-"+ii);if(el){var v=el.value.trim();if(v)clD[pi].x[ii].text=v}clEditing=null;clUI();cloudSave()}
+function clAdd(pi){var el=document.getElementById("cl-add-"+pi);if(!el||!el.value.trim())return;clD[pi].x.push({text:el.value.trim(),done:false});el.value="";clUI();cloudSave()}
+
 function clUI(){
-  var tot=0,dn=0;for(var k in clCk){tot++;if(clCk[k])dn++}var pct=Math.round((dn/tot)*100);
+  var tot=0,dn=0;clD.forEach(function(p){p.x.forEach(function(it){tot++;if(it.done)dn++})});
+  var pct=tot?Math.round((dn/tot)*100):0;
   document.getElementById("cl-lbl").textContent=dn+" van "+tot+" taken";
   document.getElementById("cl-pct").textContent=pct+"%";
   document.getElementById("cl-fill").style.width=pct+"%";
-  var btn=document.getElementById("cl-sv");
-  if(clDr){btn.className="btn btn-accent";btn.textContent="💾 Opslaan"}else{btn.className="btn btn-ghost";btn.textContent="✓ Opgeslagen"}
-  document.getElementById("cl-dirty").style.display=clDr?"block":"none";
   var tl=document.getElementById("tl"),h='<div class="tll"></div>';
-  CL.forEach(function(ph,pi){var cd=0;ph.x.forEach(function(_,ii){if(clCk[pi+"x"+ii])cd++});var ad=cd===ph.x.length,op=clOpen===pi,dc=ad?"#8CC084":ph.c;
-    h+='<div class="ph"><div class="dot" style="background:'+dc+';box-shadow:0 0 0 3px #fff,0 0 0 5px '+dc+'40">'+(ad?"✓":"")+'</div><div class="cd'+(ad?" ad":"")+'" style="border-left-color:'+(ad?"#8CC084":ph.c)+'">';
-    h+='<button class="ch-btn" onclick="clTc('+pi+')"><span class="ch-icon">'+ph.i+'</span><div style="flex:1"><div class="ch-title">'+ph.t+'</div><div class="ch-meta"><span class="badge" style="background:'+(ad?"#8CC084":ph.c)+'">'+ph.d+'</span><span class="ch-count">'+cd+'/'+ph.x.length+(ad?" ✅":"")+'</span></div></div><span class="chev'+(op?" open":"")+'">▾</span></button>';
-    h+='<div class="items'+(op?" open":"")+'">';ph.x.forEach(function(txt,ii){var done=clCk[pi+"x"+ii];h+='<div class="item" onclick="clTi('+pi+','+ii+')"><div class="cb'+(done?" c":"")+'"></div><span class="ix'+(done?" c":"")+'">'+txt+'</span></div>'});
-    h+='</div></div></div>'});
+  clD.forEach(function(ph,pi){
+    var cd=0;ph.x.forEach(function(it){if(it.done)cd++});
+    var ad=cd===ph.x.length&&ph.x.length>0,op=clOpen===pi,dc=ad?"#8CC084":ph.c;
+    h+='<div class="ph"><div class="dot" style="background:'+dc+';box-shadow:0 0 0 3px #fff,0 0 0 5px '+dc+'40">'+(ad?"\u2713":"")+'</div>';
+    h+='<div class="cd'+(ad?" ad":"")+'" style="border-left-color:'+(ad?"#8CC084":ph.c)+'">';
+    h+='<button class="ch-btn" onclick="clCat('+pi+')"><span class="ch-icon">'+ph.i+'</span><div style="flex:1"><div class="ch-title">'+esc(ph.t)+'</div><div class="ch-meta"><span class="badge" style="background:'+(ad?"#8CC084":ph.c)+'">'+esc(ph.d)+'</span><span class="ch-count">'+cd+'/'+ph.x.length+(ad?" \u2705":"")+'</span></div></div><span class="chev'+(op?" open":"")+'">▾</span></button>';
+    h+='<div class="items'+(op?" open":"")+'">';
+    ph.x.forEach(function(it,ii){
+      var isEd=clEditing===pi+"_"+ii;
+      h+='<div class="ci-row"><div class="cb'+(it.done?" c":"")+'" onclick="clToggle('+pi+','+ii+')"></div>';
+      if(isEd){h+='<input class="ci-edit" id="cl-ed-'+pi+'-'+ii+'" value="'+esc(it.text)+'" onblur="clEditDone('+pi+','+ii+')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();clEditDone('+pi+','+ii+')}">';}
+      else{h+='<span class="ci-text'+(it.done?" c":"")+'" onclick="clEdit('+pi+','+ii+')">'+esc(it.text)+'</span>';}
+      h+='<button class="ci-del" onclick="clDel('+pi+','+ii+')" title="Verwijder">\u2715</button></div>';
+    });
+    h+='<div class="add-row"><input class="add-input" id="cl-add-'+pi+'" placeholder="Nieuw item toevoegen..." onkeydown="if(event.key===\'Enter\')clAdd('+pi+')"><button class="add-btn" onclick="clAdd('+pi+')">+</button></div>';
+    h+='</div></div></div>';
+  });
   tl.innerHTML=h;
+  if(clEditing){var p=clEditing.split("_");var el=document.getElementById("cl-ed-"+p[0]+"-"+p[1]);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}}
 }
 
-// ===== BUDGET =====
+// ========== BUDGET ==========
 var BU_DEF=[
-  {cat:"Slapen",icon:"🛏️",items:[
-    {name:"Wieg / co-sleeper",budget:120,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Matras wieg",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Hoeslakens wieg (x3)",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Slaapzak (x2)",budget:50,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Babyfoon",budget:80,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Vervoer",icon:"🚗",items:[
-    {name:"Kinderwagen / buggy",budget:450,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Autostoeltje groep 0+",budget:180,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Draagzak / draagdoek",budget:90,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Regenhoes kinderwagen",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Voetenzak kinderwagen",budget:60,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Voeding",icon:"🍼",items:[
-    {name:"Flessen starterset",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Sterilisator",budget:65,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Flessenwarmer",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Borstvoedingskussen",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Borstkolf",budget:90,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Spuugdoekjes (x10)",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Verzorging",icon:"🛁",items:[
-    {name:"Babybad",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Aankleedkussen",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Luierpakket eerste maand",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Billendoekjes voorraad",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Verzorgingsproducten set",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Nageltangetje & thermometer",budget:15,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Luieremmer",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Kleding",icon:"👕",items:[
-    {name:"Rompertjes newborn (x8)",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Pyjamaatjes (x5)",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Mutsjes & sokjes",budget:15,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Vestjes (x3)",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Dekentje",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Babykamer",icon:"🏠",items:[
-    {name:"Commode / verzorgingstafel",budget:200,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Kledingkast baby",budget:180,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Nachtlampje",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Decoratie & mobiel",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
-  {cat:"Geboorte",icon:"🎉",items:[
-    {name:"Geboortekaartjes",budget:80,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Kraampakket",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Beschuit met muisjes",budget:10,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Traktatie kraamvisite",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},
-    {name:"Cadeau van baby voor grote zus",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]}
+  {cat:"Slapen",icon:"\u{1F6CF}\uFE0F",items:[{name:"Wieg / co-sleeper",budget:120,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Matras wieg",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Hoeslakens wieg (x3)",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Slaapzak (x2)",budget:50,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Babyfoon",budget:80,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Vervoer",icon:"\u{1F697}",items:[{name:"Kinderwagen / buggy",budget:450,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Autostoeltje groep 0+",budget:180,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Draagzak / draagdoek",budget:90,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Regenhoes kinderwagen",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Voetenzak kinderwagen",budget:60,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Voeding",icon:"\u{1F37C}",items:[{name:"Flessen starterset",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Sterilisator",budget:65,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Flessenwarmer",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Borstvoedingskussen",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Borstkolf",budget:90,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Spuugdoekjes (x10)",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Verzorging",icon:"\u{1F6C1}",items:[{name:"Babybad",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Aankleedkussen",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Luierpakket eerste maand",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Billendoekjes voorraad",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Verzorgingsproducten set",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Nageltangetje en thermometer",budget:15,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Luieremmer",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Kleding",icon:"\u{1F455}",items:[{name:"Rompertjes newborn (x8)",budget:45,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Pyjamaatjes (x5)",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Mutsjes en sokjes",budget:15,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Vestjes (x3)",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Dekentje",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Babykamer",icon:"\u{1F3E0}",items:[{name:"Commode / verzorgingstafel",budget:200,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Kledingkast baby",budget:180,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Nachtlampje",budget:20,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Decoratie en mobiel",budget:35,paid:0,bought:false,url:"",pName:"",pDesc:""}]},
+  {cat:"Geboorte",icon:"\u{1F389}",items:[{name:"Geboortekaartjes",budget:80,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Kraampakket",budget:30,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Beschuit met muisjes",budget:10,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Traktatie kraamvisite",budget:40,paid:0,bought:false,url:"",pName:"",pDesc:""},{name:"Cadeau van baby voor grote zus",budget:25,paid:0,bought:false,url:"",pName:"",pDesc:""}]}
 ];
 
-var buK="b2b",buD=[],buOpen=null,buDr=false;
-function buLoad(){try{var s=localStorage.getItem(buK);if(s){buD=JSON.parse(s);buD.forEach(function(c){c.items.forEach(function(it){if(!it.url)it.url="";if(!it.pName)it.pName="";if(!it.pDesc)it.pDesc=""})});return}}catch(e){}buD=JSON.parse(JSON.stringify(BU_DEF))}
-buLoad();
-
-function buSave(){try{localStorage.setItem(buK,JSON.stringify(buD));buDr=false;buUI()}catch(e){}}
-function buReset(){if(!confirm("Budget resetten naar standaard?"))return;buD=JSON.parse(JSON.stringify(BU_DEF));buDr=false;try{localStorage.removeItem(buK)}catch(e){}buUI()}
-function buToggle(ci,ii){buD[ci].items[ii].bought=!buD[ci].items[ii].bought;buDr=true;buUI()}
+var buD=[],buOpen=null;
+function buLoadDefaults(){buD=JSON.parse(JSON.stringify(BU_DEF))}
+function buReset(){if(!confirm("Budget resetten naar standaard?"))return;buLoadDefaults();buUI();cloudSave()}
+function buToggle(ci,ii){buD[ci].items[ii].bought=!buD[ci].items[ii].bought;buUI();cloudSave()}
 function buCat(ci){buOpen=buOpen===ci?null:ci;buUI()}
-function buDel(ci,ii){buD[ci].items.splice(ii,1);buDr=true;buUI()}
-function buPrice(ci,ii,f,v){buD[ci].items[ii][f]=parseFloat(v)||0;buDr=true;buDash();document.getElementById("bu-sv").className="btn btn-accent";document.getElementById("bu-sv").textContent="💾 Opslaan";document.getElementById("bu-dirty").style.display="block"}
-function buUrl(ci,ii,v){buD[ci].items[ii].url=v;buDr=true}
-function buAdd(ci){var nm=document.getElementById("an-"+ci),pr=document.getElementById("ap-"+ci);if(!nm||!nm.value.trim())return;buD[ci].items.push({name:nm.value.trim(),budget:parseFloat(pr.value)||0,paid:0,bought:false,url:"",pName:"",pDesc:""});nm.value="";pr.value="";buDr=true;buUI()}
+function buDel(ci,ii){buD[ci].items.splice(ii,1);buUI();cloudSave()}
+function buPrice(ci,ii,f,v){buD[ci].items[ii][f]=parseFloat(v)||0;buDash();cloudSave()}
+function buUrl(ci,ii,v){buD[ci].items[ii].url=v;cloudSave()}
+function buAdd(ci){var nm=document.getElementById("an-"+ci),pr=document.getElementById("ap-"+ci);if(!nm||!nm.value.trim())return;buD[ci].items.push({name:nm.value.trim(),budget:parseFloat(pr.value)||0,paid:0,bought:false,url:"",pName:"",pDesc:""});nm.value="";pr.value="";buUI();cloudSave()}
 
-// Fetch product info from URL
 function buFetch(ci,ii){
-  var it=buD[ci].items[ii];
-  var url=it.url.trim();
-  if(!url)return;
-  if(!/^https?:\/\//i.test(url))url="https://"+url;
-  it.url=url;
-
-  var el=document.getElementById("fetch-status-"+ci+"-"+ii);
-  if(el)el.innerHTML='<span class="bi-fetching">⏳ Ophalen...</span>';
-
-  var proxy="https://api.allorigins.win/get?url="+encodeURIComponent(url);
-  fetch(proxy).then(function(r){return r.json()}).then(function(data){
-    if(!data.contents){throw new Error("Geen inhoud")}
-    var html=data.contents;
-    var title="",desc="";
-
-    // Try og:title
-    var m=html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i);
-    if(!m)m=html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:title["']/i);
-    if(m)title=m[1];
-
-    // Fallback to <title>
+  var it=buD[ci].items[ii],url=it.url.trim();if(!url)return;
+  if(!/^https?:\/\//i.test(url))url="https://"+url;it.url=url;
+  var el=document.getElementById("fs-"+ci+"-"+ii);
+  if(el)el.innerHTML='<span class="bi-fetching">\u23F3 Ophalen...</span>';
+  fetch("https://api.allorigins.win/get?url="+encodeURIComponent(url)).then(function(r){return r.json()}).then(function(data){
+    if(!data.contents)throw new Error("");var html=data.contents,title="",desc="",m;
+    m=html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i);if(!m)m=html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:title["']/i);if(m)title=m[1];
     if(!title){m=html.match(/<title[^>]*>([^<]+)<\/title>/i);if(m)title=m[1]}
-
-    // Try og:description
-    m=html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i);
-    if(!m)m=html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:description["']/i);
-    if(m)desc=m[1];
-
-    // Fallback meta description
+    m=html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i);if(!m)m=html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:description["']/i);if(m)desc=m[1];
     if(!desc){m=html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);if(m)desc=m[1]}
-
-    // Decode HTML entities
-    var tmp=document.createElement("textarea");
-    if(title){tmp.innerHTML=title;title=tmp.value}
-    if(desc){tmp.innerHTML=desc;desc=tmp.value}
-
-    it.pName=title||"";
-    it.pDesc=desc||"";
-    buDr=true;
-    buUI();
-  }).catch(function(e){
-    if(el)el.innerHTML='<span style="font-size:11px;color:var(--red)">Kon niet ophalen — link is wel opgeslagen</span>';
-    buDr=true;
-  });
+    var tmp=document.createElement("textarea");if(title){tmp.innerHTML=title;title=tmp.value}if(desc){tmp.innerHTML=desc;desc=tmp.value}
+    it.pName=title||"";it.pDesc=desc||"";buUI();cloudSave();
+  }).catch(function(){if(el)el.innerHTML='<span style="font-size:11px;color:var(--red)">Kon niet ophalen</span>'});
 }
-
-// Use fetched product name as item name
-function buUseName(ci,ii){
-  var it=buD[ci].items[ii];
-  if(it.pName){it.name=it.pName;buDr=true;buUI()}
-}
+function buUseName(ci,ii){buD[ci].items[ii].name=buD[ci].items[ii].pName;buUI();cloudSave()}
 
 function buDash(){
-  var tB=0,tP=0,tI=0,bI=0;
-  buD.forEach(function(c){c.items.forEach(function(it){tI++;tB+=it.budget;tP+=it.paid;if(it.bought)bI++})});
+  var tB=0,tP=0,tI=0,bI=0;buD.forEach(function(c){c.items.forEach(function(it){tI++;tB+=it.budget;tP+=it.paid;if(it.bought)bI++})});
   var pct=tI?Math.round((bI/tI)*100):0,diff=tB-tP,dC=diff>=0?"var(--green)":"var(--red)";
-  document.getElementById("bu-pct").textContent=pct+"%";
-  document.getElementById("bu-fill").style.width=pct+"%";
-  document.getElementById("bu-spent").textContent="€"+tP.toFixed(0);
-  document.getElementById("bu-budget").textContent="€"+tB.toFixed(0);
+  document.getElementById("bu-pct").textContent=pct+"%";document.getElementById("bu-fill").style.width=pct+"%";
+  document.getElementById("bu-spent").textContent="\u20AC"+tP.toFixed(0);document.getElementById("bu-budget").textContent="\u20AC"+tB.toFixed(0);
   document.getElementById("bu-dash").innerHTML=
-    '<div class="dash-card"><div class="dash-val" style="color:var(--accent)">€'+tB.toFixed(0)+'</div><div class="dash-lbl">Totaal budget</div></div>'+
-    '<div class="dash-card"><div class="dash-val" style="color:var(--green)">€'+tP.toFixed(0)+'</div><div class="dash-lbl">Besteed</div></div>'+
-    '<div class="dash-card"><div class="dash-val" style="color:'+dC+'">€'+Math.abs(diff).toFixed(0)+(diff<0?' over':'')+'</div><div class="dash-lbl">'+(diff>=0?'Resterend':'Over budget')+'</div></div>'+
+    '<div class="dash-card"><div class="dash-val" style="color:var(--accent)">\u20AC'+tB.toFixed(0)+'</div><div class="dash-lbl">Totaal budget</div></div>'+
+    '<div class="dash-card"><div class="dash-val" style="color:var(--green)">\u20AC'+tP.toFixed(0)+'</div><div class="dash-lbl">Besteed</div></div>'+
+    '<div class="dash-card"><div class="dash-val" style="color:'+dC+'">\u20AC'+Math.abs(diff).toFixed(0)+(diff<0?' over':'')+'</div><div class="dash-lbl">'+(diff>=0?'Resterend':'Over budget')+'</div></div>'+
     '<div class="dash-card"><div class="dash-val" style="color:var(--blue)">'+bI+'/'+tI+'</div><div class="dash-lbl">Gekocht</div></div>';
 }
 
-function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
-
 function buUI(){
-  buDash();
-  var btn=document.getElementById("bu-sv");
-  if(buDr){btn.className="btn btn-accent";btn.textContent="💾 Opslaan"}else{btn.className="btn btn-ghost";btn.textContent="✓ Opgeslagen"}
-  document.getElementById("bu-dirty").style.display=buDr?"block":"none";
-
-  var el=document.getElementById("bu-cats"),h="";
+  buDash();var el=document.getElementById("bu-cats"),h="";
   buD.forEach(function(cat,ci){
-    var op=buOpen===ci,cB=0,cP=0,cBo=0;
-    cat.items.forEach(function(it){cB+=it.budget;cP+=it.paid;if(it.bought)cBo++});
-    h+='<div class="bcat"><div class="bcat-head" onclick="buCat('+ci+')"><span class="bcat-icon">'+cat.icon+'</span><span class="bcat-title">'+esc(cat.cat)+'</span><span class="bcat-sum">€'+cP.toFixed(0)+' / €'+cB.toFixed(0)+'</span><span class="chev'+(op?' open':'')+'">▾</span></div>';
+    var op=buOpen===ci,cB=0,cP=0;cat.items.forEach(function(it){cB+=it.budget;cP+=it.paid});
+    h+='<div class="bcat"><div class="bcat-head" onclick="buCat('+ci+')"><span class="bcat-icon">'+cat.icon+'</span><span class="bcat-title">'+esc(cat.cat)+'</span><span class="bcat-sum">\u20AC'+cP.toFixed(0)+' / \u20AC'+cB.toFixed(0)+'</span><span class="chev'+(op?' open':'')+'">▾</span></div>';
     h+='<div class="bcat-items'+(op?' open':'')+'">';
     cat.items.forEach(function(it,ii){
-      var hasProduct=it.pName||it.pDesc;
-      h+='<div class="bi">';
-      // Top row: checkbox + name + delete
-      h+='<div class="bi-top"><div class="bi-bought'+(it.bought?' c':'')+'" onclick="buToggle('+ci+','+ii+')"></div><span class="bi-name'+(it.bought?' ix c':'')+'">'+esc(it.name)+'</span><button class="bi-del" onclick="buDel('+ci+','+ii+')" title="Verwijder">✕</button></div>';
-      // Prices
+      var hp=it.pName||it.pDesc;
+      h+='<div class="bi"><div class="bi-top"><div class="bi-bought'+(it.bought?' c':'')+'" onclick="buToggle('+ci+','+ii+')"></div><span class="bi-name'+(it.bought?' ci-text c':'')+'">'+esc(it.name)+'</span><button class="bi-del" onclick="buDel('+ci+','+ii+')">\u2715</button></div>';
       h+='<div class="bi-prices"><div class="bi-field"><label>Budget</label><input class="bi-input" type="number" value="'+it.budget+'" onchange="buPrice('+ci+','+ii+',\'budget\',this.value)" onclick="this.select()"></div>';
       h+='<div class="bi-field"><label>Betaald</label><input class="bi-input" type="number" value="'+it.paid+'" onchange="buPrice('+ci+','+ii+',\'paid\',this.value)" onclick="this.select()" style="border-color:'+(it.paid>0?'var(--green)':'var(--border)')+'"></div></div>';
-      // Link row
-      h+='<div class="bi-link-row"><input class="bi-link-input" placeholder="🔗 Plak hier de productlink..." value="'+esc(it.url)+'" onchange="buUrl('+ci+','+ii+',this.value)" id="url-'+ci+'-'+ii+'">';
+      h+='<div class="bi-link-row"><input class="bi-link-input" placeholder="\u{1F517} Productlink..." value="'+esc(it.url)+'" onchange="buUrl('+ci+','+ii+',this.value)">';
       h+='<button class="bi-link-fetch" onclick="buFetch('+ci+','+ii+')">Ophalen</button>';
-      if(it.url){h+='<a class="bi-link-open" href="'+esc(it.url)+'" target="_blank" rel="noopener">Bekijk ↗</a>'}
-      h+='</div>';
-      // Fetch status / product info
-      h+='<div id="fetch-status-'+ci+'-'+ii+'">';
-      if(hasProduct){
-        h+='<div class="bi-product">';
-        if(it.pName)h+='<div class="bi-product-name">'+esc(it.pName)+'</div>';
-        if(it.pDesc)h+='<div class="bi-product-desc">'+esc(it.pDesc)+'</div>';
-        if(it.pName&&it.pName!==it.name)h+='<button class="bi-product-use" onclick="buUseName('+ci+','+ii+')">Gebruik als itemnaam</button>';
-        h+='</div>';
-      }
-      h+='</div>';
-      h+='</div>';
+      if(it.url){h+='<a class="bi-link-open" href="'+esc(it.url)+'" target="_blank">\u2197</a>'}
+      h+='</div><div id="fs-'+ci+'-'+ii+'">';
+      if(hp){h+='<div class="bi-product">';if(it.pName)h+='<div class="bi-product-name">'+esc(it.pName)+'</div>';if(it.pDesc)h+='<div class="bi-product-desc">'+esc(it.pDesc)+'</div>';if(it.pName&&it.pName!==it.name)h+='<button class="bi-product-use" onclick="buUseName('+ci+','+ii+')">Gebruik als naam</button>';h+='</div>'}
+      h+='</div></div>';
     });
-    // Add new item
-    h+='<div class="add-row"><input class="add-input" id="an-'+ci+'" placeholder="Nieuw item..." onkeydown="if(event.key===\'Enter\')buAdd('+ci+')"><input class="add-price" id="ap-'+ci+'" type="number" placeholder="€"><button class="add-btn" onclick="buAdd('+ci+')" title="Toevoegen">+</button></div>';
+    h+='<div class="add-row"><input class="add-input" id="an-'+ci+'" placeholder="Nieuw item..." onkeydown="if(event.key===\'Enter\')buAdd('+ci+')"><input class="add-price" id="ap-'+ci+'" type="number" placeholder="\u20AC"><button class="add-btn" onclick="buAdd('+ci+')">+</button></div>';
     h+='</div></div>';
   });
   el.innerHTML=h;
 }
 
 // Init
-clUI();buUI();
+checkLogin();
 </script>
-
 </body>
 </html>
