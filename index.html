@@ -275,7 +275,7 @@ function showPage(id){
 }
 
 // ===== AI FETCH =====
-function aiFetch(ci,ii){
+ffunction aiFetch(ci,ii){
   var key=getApiKey();
   if(!key){openSettings();return}
   var it=buD[ci].items[ii],url=it.url.trim();
@@ -286,12 +286,12 @@ function aiFetch(ci,ii){
   if(el)el.innerHTML='<span class="bi-fetching">🤖 AI is aan het zoeken...</span>';
   fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","anthropic-beta":"web-search-2025-03-05"},
     body:JSON.stringify({
       model:"claude-sonnet-4-20250514",
       max_tokens:500,
-      tools:[{type:"web_search_20250305",name:"web_search"}],
-      messages:[{role:"user",content:"Zoek informatie over dit product: "+url+"\n\nGeef een JSON-antwoord met ALLEEN dit formaat, geen andere tekst:\n{\"name\":\"productnaam\",\"description\":\"korte beschrijving in het Nederlands, max 2 zinnen, met belangrijkste kenmerken en geschiktheid voor baby\"}"}]
+      tools:[{type:"web_search_20250305",name:"web_search",max_uses:3}],
+      messages:[{role:"user",content:"Zoek informatie over dit babyproduct: "+url+"\n\nGeef een JSON-antwoord met ALLEEN dit formaat, geen andere tekst:\n{\"name\":\"productnaam\",\"description\":\"korte beschrijving in het Nederlands, max 2 zinnen, met belangrijkste kenmerken en geschiktheid voor baby\"}"}]
     })
   }).then(function(r){
     if(!r.ok)throw new Error(r.status);
@@ -299,7 +299,6 @@ function aiFetch(ci,ii){
   }).then(function(data){
     var txt="";
     data.content.forEach(function(b){if(b.type==="text")txt+=b.text});
-    // Extract JSON from response
     var match=txt.match(/\{[\s\S]*"name"[\s\S]*"description"[\s\S]*\}/);
     if(match){
       var info=JSON.parse(match[0]);
@@ -311,7 +310,7 @@ function aiFetch(ci,ii){
     }
     buUI();cloudSave();
   }).catch(function(e){
-    if(el)el.innerHTML='<span style="font-size:11px;color:var(--red)">Fout: '+esc(e.message||"onbekend")+' — controleer je API-key via ⚙️</span>';
+    if(el)el.innerHTML='<span style="font-size:11px;color:var(--red)">Fout: '+esc(e.message||"onbekend")+'</span>';
   });
 }
 
